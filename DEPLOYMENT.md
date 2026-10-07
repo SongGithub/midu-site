@@ -4,7 +4,11 @@ The new site is currently local only. The older blog is published separately fro
 
 ## 1. Repair DNS before changing the apex
 
-Ask the DNS provider to synchronize the `midu.com.au` zone across all three delegated nameservers. On 2026-10-07, `ns1.nameserver.net.au` returned `REFUSED` for the zone, `ns2` served only an older apex A record, and `ns3` served the new blog CNAME. The provider should confirm identical SOA serials and both records on all three servers.
+Ask the DNS provider to synchronize the `midu.com.au` zone across all three delegated nameservers. On 2026-10-07, authoritative queries were inconsistent: `ns1` refused the zone's SOA and apex A queries, `ns2` refused the SOA query while serving the older apex A record, and `ns3` served the SOA and apex A record. All three returned the blog CNAME in the latest check. Earlier checks also showed intermittent refusal for the blog record. The provider should confirm identical SOA serials and both expected records on all three servers.
+
+Suggested support request:
+
+> The delegated nameservers for midu.com.au are ns1/ns2/ns3.nameserver.net.au, but they do not consistently serve the same authoritative zone. Please restore/synchronize DNS hosting for the domain on all three servers. Confirm that each server answers authoritatively with the same SOA serial, the current apex A record, and `blog.midu.com.au CNAME songgithub.github.io`. Some direct queries currently return REFUSED, causing visitors on different resolvers to get different results.
 
 Check each server with:
 

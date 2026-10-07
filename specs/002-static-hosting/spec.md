@@ -8,7 +8,7 @@
 
 The older Pelican blog uses two repositories: `SongGithub/songgithub.github.io-src` for source and `SongGithub/songgithub.github.io` for the published GitHub Pages site. The blog's custom hostname is `blog.midu.com.au`. The new personal site is a separate product and must not replace the blog's files or domain configuration.
 
-`midu.com.au` has been purchased. Its delegated nameservers are `ns1`, `ns2`, and `ns3.nameserver.net.au`. On 2026-10-07, direct authoritative queries returned inconsistent zone data: `ns1` refused the zone; `ns2` returned the older apex A record (`103.42.108.46`) but refused the blog CNAME; `ns3` returned the blog CNAME but refused the apex A query. The provider needs to make all three servers authoritative for the same zone before any apex cutover. This repository has no Git remote yet, so the new site is currently local only.
+`midu.com.au` has been purchased. Its delegated nameservers are `ns1`, `ns2`, and `ns3.nameserver.net.au`. Repeated direct authoritative queries on 2026-10-07 returned inconsistent zone data and intermittent `REFUSED` responses. The apex still points at `103.42.108.46`; the blog CNAME points at `songgithub.github.io` when served. The provider needs to make all three servers authoritative for the same zone before any apex cutover. This repository has no Git remote yet, so the new site is currently local only.
 
 ## User Scenarios
 
