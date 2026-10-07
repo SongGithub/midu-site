@@ -8,7 +8,7 @@
 
 The older Pelican blog uses two repositories: `SongGithub/songgithub.github.io-src` for source and `SongGithub/songgithub.github.io` for the published GitHub Pages site. The blog's custom hostname is `blog.midu.com.au`. The new personal site is a separate product and must not replace the blog's files or domain configuration.
 
-`midu.com.au` has been purchased. The DNS provider now serves records for the domain, including a CNAME from `blog.midu.com.au` to `songgithub.github.io`. The apex domain is not connected to the new site. This repository has no Git remote yet, so the new site is currently local only.
+`midu.com.au` has been purchased. Its delegated nameservers are `ns1`, `ns2`, and `ns3.nameserver.net.au`. On 2026-10-07, direct authoritative queries returned inconsistent zone data: `ns1` refused the zone; `ns2` returned the older apex A record (`103.42.108.46`) but refused the blog CNAME; `ns3` returned the blog CNAME but refused the apex A query. The provider needs to make all three servers authoritative for the same zone before any apex cutover. This repository has no Git remote yet, so the new site is currently local only.
 
 ## User Scenarios
 
@@ -30,7 +30,7 @@ Publishing or updating the new site does not alter the old blog repositories, th
 - **INF-002**: Use a static, dependency-free build for the first release. The checked-in HTML and CSS are the deployable files.
 - **INF-003**: Support a local HTTP preview and a temporary GitHub Pages project URL before the apex domain is connected.
 - **INF-004**: Use relative internal URLs so navigation works both at a project URL and at a custom domain root.
-- **INF-005**: Connect `midu.com.au` only after its DNS records, GitHub Pages custom-domain setting, and HTTPS certificate can be verified together.
+- **INF-005**: Connect `midu.com.au` only after all delegated nameservers serve one consistent zone and its DNS records, GitHub Pages custom-domain setting, and HTTPS certificate can be verified together.
 - **INF-006**: Preserve the `blog.midu.com.au` CNAME and verify the blog after apex DNS changes.
 - **INF-007**: Document publishing, domain setup, validation, and rollback steps. No credential or token may be committed.
 - **INF-008**: Do not add analytics, forms, server code, or a new paid hosting service for the first release.
@@ -50,6 +50,7 @@ GitHub's [custom-domain documentation](https://docs.github.com/en/pages/configur
 - The landing page and case study load from a local HTTP server without broken internal assets or links.
 - The separate Pages deployment succeeds and those pages load from the temporary project URL on desktop and mobile.
 - After domain cutover, `https://midu.com.au/` loads with a valid certificate, the project page loads, and `https://blog.midu.com.au/` still serves the old blog.
+- Before domain cutover, `ns1`, `ns2`, and `ns3.nameserver.net.au` all answer authoritatively with the same SOA serial and the expected apex and blog records.
 - A single-page change can be published by a commit and undone by reverting that commit.
 
 ## Decisions Needed Before Public Launch

@@ -104,7 +104,7 @@ Song wants to add or revise a project or technical note when there is meaningful
 
 - Song has purchased `midu.com.au`. DNS now serves the old blog's CNAME, while the apex is not connected to this new site. Site development and preview do not depend on the apex DNS being ready.
 - Song's current job search makes employer evaluation the priority. The consulting offer is exploratory until Song validates demand and approves its wording.
-- Project names and descriptions in the shared chat are examples, not verified portfolio facts. Song will supply or approve actual public project details, outcomes, CV, profile links, and contact details.
+- Project names and descriptions in the shared chat are examples, not verified portfolio facts. The first local draft uses the public `junkmail-ai-cleaner` repository and an archived Kubernetes note as evidence; Song still needs to approve the site copy, CV or profile links, and contact details before publication.
 - A simple contact link is sufficient for the first release. Domain email, booking, forms, analytics, and an AI assistant require separate decisions.
 - Technical notes are optional. No article count or publication cadence is required.
 

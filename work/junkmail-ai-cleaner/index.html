@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A public personal project by Song Jin: Outlook junk mail cleanup with rules, a local language model, and safety checks.">
+    <title>Junkmail AI Cleaner — Song Jin</title>
+    <link rel="stylesheet" href="../../assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-inner">
+      <a class="wordmark" href="../../" aria-label="Song Jin, home">Song Jin<span class="wordmark-dot">.</span></a>
+      <nav aria-label="Main navigation"><a href="../../#work">Work</a><a href="../../#about">About</a><a href="../../#connect">Connect</a></nav>
+    </div></header>
+    <main id="main" class="case-main shell">
+      <a class="back-link" href="../../#work">← All selected work</a>
+      <header class="case-header">
+        <p class="eyebrow">Personal tool · 2026 · Practical AI</p>
+        <h1>Junkmail AI Cleaner</h1>
+        <p class="lead">A public tool for a repetitive mail workflow: identify known spam quickly, use a local model for uncertain messages, and keep the process recoverable when classification or dependencies fail.</p>
+      </header>
+      <div class="case-layout">
+        <div class="case-content">
+          <section aria-labelledby="problem-title"><h2 id="problem-title">The problem</h2><p>Reviewing an Outlook junk folder takes repeated attention. Automated deletion raises a harder question: how to reduce junk without silently losing legitimate mail.</p></section>
+          <section aria-labelledby="contribution-title"><h2 id="contribution-title">Song’s contribution</h2><p>I published the tool and its implementation. The repository combines keyword rules, Microsoft Graph access, local Ollama classification, scheduled runs, and a preflight check that stops a run if required services are unavailable.</p></section>
+          <section aria-labelledby="approach-title"><h2 id="approach-title">Approach and evidence</h2><p>Known patterns take the fast path. Uncertain messages are classified locally. The documented output contract treats malformed model responses as “keep”, and Graph deletion moves mail to Deleted Items so a mistake can be recovered.</p><p>The public repository includes unit tests, model-output tests, and a labelled evaluation set. Its README states a zero-deleted-legitimate-mail gate and documents known gaps; this page does not claim a measured production result.</p></section>
+          <a class="button button-primary" href="https://github.com/SongGithub/junkmail-ai-cleaner">Inspect the public repository <span aria-hidden="true">↗</span></a>
+        </div>
+        <aside class="case-aside" aria-label="Project summary"><p class="eyebrow">At a glance</p><dl><dt>Stage</dt><dd>Public personal tool</dd><dt>When</dt><dd>2026</dd><dt>Methods</dt><dd>Rules, local LLM, Graph API, preflight checks</dd><dt>Evidence</dt><dd>Source, tests, and evaluation set</dd></dl></aside>
+      </div>
+    </main>
+    <footer class="site-footer"><div class="shell footer-inner"><span>© 2026 Song Jin</span><div><a href="https://github.com/SongGithub">GitHub</a><a href="https://github.com/SongGithub/songgithub.github.io-src/tree/master/content">Writing archive</a></div></div></footer>
+  </body>
+</html>
