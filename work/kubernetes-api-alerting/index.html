@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Song Jin’s 2018 engineering note on Kubernetes API latency alerting with Prometheus.">
+    <title>Kubernetes API latency alerting — Song Jin</title>
+    <link rel="stylesheet" href="../../assets/site.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header"><div class="shell header-inner">
+      <a class="wordmark" href="../../" aria-label="Song Jin, home">Song Jin<span class="wordmark-dot">.</span></a>
+      <nav aria-label="Main navigation"><a href="../../#work">Work</a><a href="../../#about">About</a><a href="../../#connect">Connect</a></nav>
+    </div></header>
+    <main id="main" class="case-main shell">
+      <a class="back-link" href="../../#work">← All selected work</a>
+      <header class="case-header">
+        <p class="eyebrow">Engineering note · 2018 · Kubernetes / Prometheus</p>
+        <h1>Detecting Kubernetes API latency</h1>
+        <p class="lead">An archived account of investigating alert rules for sudden API server latency. The source describes the reasoning, query choices, and a way to reproduce the condition.</p>
+      </header>
+      <div class="case-layout">
+        <div class="case-content">
+          <section aria-labelledby="problem-title"><h2 id="problem-title">The problem</h2><p>A large query against Kubernetes objects could increase API server response time for other users. An alert based on a long summary window could respond too slowly to a sudden spike.</p></section>
+          <section aria-labelledby="contribution-title"><h2 id="contribution-title">Song’s contribution</h2><p>In the 2018 note, I worked through the metric choice for this alert. I compared a summary metric with a histogram bucket query, looked into the metric definitions, and documented a way to generate many objects to exercise the API server.</p></section>
+          <section aria-labelledby="approach-title"><h2 id="approach-title">Approach and evidence</h2><p>The first query used <code>apiserver_request_latencies_summary</code>. The note explains why its long sliding window made it a poor fit for a responsive alert. The revised approach used <code>apiserver_request_latencies_bucket</code> with <code>histogram_quantile</code> and a five-minute rate window.</p><p>The public article contains the query details and the test setup. It does not provide a measured production result or a claim about alert deployment.</p></section>
+          <a class="button button-primary" href="https://github.com/SongGithub/songgithub.github.io-src/blob/master/content/devops/apiserver-latency-alert.md">Read the original source <span aria-hidden="true">↗</span></a>
+        </div>
+        <aside class="case-aside" aria-label="Project summary"><p class="eyebrow">At a glance</p><dl><dt>Stage</dt><dd>Published technical investigation</dd><dt>When</dt><dd>2018</dd><dt>Methods</dt><dd>PromQL, metric analysis, load reproduction</dd><dt>Evidence</dt><dd>Original article source</dd></dl></aside>
+      </div>
+    </main>
+    <footer class="site-footer"><div class="shell footer-inner"><span>© 2026 Song Jin</span><div><a href="https://github.com/SongGithub">GitHub</a><a href="https://blog.midu.com.au/">Writing archive</a></div></div></footer>
+  </body>
+</html>
