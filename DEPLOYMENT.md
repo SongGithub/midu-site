@@ -1,6 +1,6 @@
 # Deployment runbook
 
-The new site is currently local only. The older blog is published separately from `SongGithub/songgithub.github.io`; leave that repository and its `blog.midu.com.au` CNAME in place.
+The new site is published from the separate public repository `SongGithub/midu-site`. GitHub Pages reports a successful build at `https://blog.midu.com.au/midu-site/`. Because the older `SongGithub/songgithub.github.io` user site uses `blog.midu.com.au`, GitHub Pages applies that hostname to project sites too. The `songgithub.github.io/midu-site/` URL redirects to it. Keep the old blog repository and its CNAME in place.
 
 ## 1. Repair DNS before changing the apex
 
@@ -22,15 +22,15 @@ done
 
 Until this is fixed, different visitors can receive different DNS answers. Do not remove the existing blog CNAME during the repair.
 
-## 2. Publish a temporary Pages address
+## 2. Current GitHub Pages preview
 
-After Song reviews the public copy and confirms a contact route, create a **separate** public GitHub repository under `SongGithub` for this site's files. Push the `main` branch, then set **Settings → Pages → Deploy from a branch → main → /(root)**. Open both the homepage and each case-study page at the project URL. Internal paths are relative so they work under a repository path.
+The `main` branch is connected to `https://github.com/SongGithub/midu-site.git`; Pages publishes from the repository root. The homepage and both case-study paths returned HTTP 200 on 2026-10-08. Both the blog and project Pages settings have HTTPS enforcement enabled. Public copy and contact details still need Song's review before calling this the finished site.
 
-The repository name is still to be chosen. No remote is configured here yet. No build command, package install, secret, or GitHub Actions workflow is needed for this static version.
+The preview inherits the blog hostname. If a visitor's resolver reaches one of the inconsistent nameservers, this preview may fail despite the successful Pages build. A Cloudflare Pages deployment would provide a separate `<project>.pages.dev` preview; see `specs/002-static-hosting/hosting-options.md`.
 
 ## 3. Connect `midu.com.au`
 
-In the new repository's Pages settings, add `midu.com.au` as the custom domain. At the DNS provider, replace the apex's previous web-hosting A record with the current GitHub Pages apex values from [GitHub's documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site). Preserve `blog.midu.com.au → songgithub.github.io`. Add the domain's `CNAME` file to this repository if GitHub does not create it automatically for branch publishing.
+If GitHub Pages remains the host, add `midu.com.au` as the custom domain in the new repository's Pages settings. At the DNS provider, replace the apex's previous web-hosting A record with the current GitHub Pages apex values from [GitHub's documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site). Preserve `blog.midu.com.au → songgithub.github.io`. Add the domain's `CNAME` file to this repository if GitHub does not create it automatically for branch publishing.
 
 When the certificate is ready, enable **Enforce HTTPS**. Check the apex homepage, both case studies, the temporary Pages URL's redirect, and the old blog from more than one network.
 

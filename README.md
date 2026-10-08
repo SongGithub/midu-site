@@ -8,6 +8,6 @@ From the repository root, run `python3 -m http.server 8766`, then open `http://1
 
 ## Hosting
 
-The files can be published directly from the repository root with GitHub Pages. This repository currently has no remote. Keep the older blog in its existing `songgithub.github.io` repository; a separate repository and Pages site is needed for this site. If the new site uses `midu.com.au`, configure that custom domain on its own Pages site and add the GitHub Pages apex DNS records at the domain provider. Do not point the apex at the blog CNAME.
+This repository is published from `main` through GitHub Pages at [the temporary preview](https://blog.midu.com.au/midu-site/). It lives in a separate repository from the older blog. GitHub Pages inherits the blog's custom domain for project sites, so `songgithub.github.io/midu-site/` redirects to the blog hostname. DNS for `midu.com.au` still needs repair before the apex can be connected. See [DEPLOYMENT.md](DEPLOYMENT.md) and the [hosting comparison](specs/002-static-hosting/hosting-options.md).
 
 The site contains no JavaScript, forms, analytics, or third-party font requests.
