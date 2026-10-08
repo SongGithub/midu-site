@@ -67,6 +67,14 @@ Someone without the allowlisted identity cannot fetch the library index, an HTML
 - Song will create a Cloudflare account; none exists yet.
 - The initial library uses its own provider address so the current `midu.com.au` DNS issue cannot prevent access.
 
+## Authorisation State
+
+- **Who may open the library:** Keep the allow rule in Cloudflare Access for the protected library application. The initial rule matches one exact Google or Microsoft account address. Do not place an allowlist in HTML, JavaScript, or the public portfolio repository.
+- **Who is currently signed in:** Cloudflare Access issues a time-limited browser authorisation cookie after sign-in and checks it on requests. The static site does not store its own sessions.
+- **Which content is covered:** The first release grants the approved account access to the whole private library. If later collections need different readers, define separate Access applications for distinct hosts or URL paths and test their inherited path rules. Per-file editing or a large user-by-file permission matrix would require a different application design.
+- **Where the files live:** Learning files and Git history stay in the separate private repository. Cloudflare Access rules protect the deployed copies; repository privacy alone does not protect a published website.
+- **Configuration record:** Record application names, protected address patterns, policy names, and verification steps in a private deployment runbook. Keep the exact allowlisted account and provider credentials out of this public specification and repository.
+
 ## Decisions Needed
 
 - Choose Google or Microsoft as the sign-in provider and confirm the exact allowlisted account at setup time.
@@ -76,4 +84,4 @@ Someone without the allowlisted identity cannot fetch the library index, an HTML
 
 ## Source Notes
 
-Cloudflare documents [Pages preview protection](https://developers.cloudflare.com/pages/configuration/preview-deployments/) and warns that enabling it alone does **not** protect the production `pages.dev` or custom domain. Its [known-issues guide](https://developers.cloudflare.com/pages/platform/known-issues/) explains how to protect those hostnames separately. Access supports [single-email allowlists and identity-provider login](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/) as well as [one-time PIN](https://developers.cloudflare.com/cloudflare-one/integrations/identity-providers/). GitHub states that [Pages websites remain public even when the source repository is private](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site), so a private GitHub repository alone does not satisfy this feature.
+Cloudflare documents [Pages preview protection](https://developers.cloudflare.com/pages/configuration/preview-deployments/) and warns that enabling it alone does **not** protect the production `pages.dev` or custom domain. Its [known-issues guide](https://developers.cloudflare.com/pages/platform/known-issues/) explains how to protect those hostnames separately. Access supports [exact-email allow rules](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/), [path-specific applications](https://developers.cloudflare.com/cloudflare-one/access-controls/policies/app-paths/), and [authorisation cookies](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/). GitHub states that [Pages websites remain public even when the source repository is private](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site), so a private GitHub repository alone does not satisfy this feature.
