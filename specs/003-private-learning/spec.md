@@ -11,6 +11,7 @@ Provide Song with a convenient private website for static learning pages while k
 ## Proposed First Release
 
 - Keep the public portfolio in `SongGithub/midu-site` as a separate site.
+- Put a visible **Log in** link in the public site's main navigation. It opens the protected library and prompts for sign-in when needed. Publish this link only after the protected destination has been configured and tested.
 - Store learning pages in a **separate private repository**. Do not commit them to the public site, including its history or build artifacts.
 - Deploy that repository to a separate Cloudflare Pages project with a `pages.dev` address. Protect the production `pages.dev` hostname and every preview/deployment hostname with Cloudflare Access.
 - Allow only Song's specified Google or Microsoft account. Song chose an existing account over email one-time PIN. Require multifactor authentication on the chosen account; record the exact allowlisted address during setup, outside this public repository.
@@ -20,7 +21,7 @@ Provide Song with a convenient private website for static learning pages while k
 
 ### 1. Song opens a learning page
 
-Song opens the private library on desktop or mobile, signs in using the chosen identity, and can browse an index and open an individual HTML learning page with its local assets.
+Song selects **Log in** on the public site, signs in using the chosen identity, lands on the private library index, and opens an individual HTML learning page with its local assets. The link works on desktop and mobile. If Song already has a valid session, it opens the library without another prompt.
 
 ### 2. Song adds a generated page
 
@@ -41,6 +42,7 @@ Someone without the allowlisted identity cannot fetch the library index, an HTML
 - **PRV-007**: Generated HTML and linked resources MUST be reviewed for external network requests, embedded secrets, and unexpected scripts before publishing. Private pages should use a separate origin from the public portfolio.
 - **PRV-008**: The private site MUST not depend on `midu.com.au` DNS until the authoritative nameservers are consistent and the custom hostname has its own tested Access policy.
 - **PRV-009**: Sign-in MUST use Song's existing Google or Microsoft account. The exact provider and account address MUST be confirmed during setup and MUST NOT be published in this public specification.
+- **PRV-010**: The public site's main navigation MUST contain a keyboard-accessible **Log in** link to the protected library. A signed-out Song MUST be prompted to authenticate and then reach the library index; a signed-in Song MUST reach the index directly. The link MUST work on mobile. It MUST NOT be published while its destination is missing or unprotected.
 
 ## Acceptance Tests
 
@@ -49,11 +51,13 @@ Someone without the allowlisted identity cannot fetch the library index, an HTML
 3. A different identity is denied after attempting to sign in.
 4. A new preview deployment and its immutable URL pass the same unauthenticated checks before any real learning material is uploaded.
 5. A search of the public repository and deployed public site finds no private learning content or private repository references that reveal file contents.
+6. From the public homepage on desktop and mobile, the **Log in** link reaches the library index after approved sign-in. Another visitor may see the link but cannot read the library.
 
 ## Success Criteria
 
 - Signed-out checks of the index, a page, an asset, a preview, and a permanent deployment URL return zero private file bodies.
 - Song's approved account opens an index and sample page with working local assets on desktop and mobile; a different account is denied.
+- Song reaches the index using the public **Log in** link on both desktop and mobile; zero private file bodies are exposed to a signed-out visitor who follows it.
 - Song publishes a new learning page and restores the prior version using documented steps, without editing authentication settings.
 - A search of the public repository and deployed portfolio finds zero private learning file contents.
 
