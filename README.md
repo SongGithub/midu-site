@@ -18,4 +18,4 @@ The site contains no JavaScript, forms, analytics, or third-party font requests.
 
 The public site's DNS configuration lives in [infra/cloudflare/](infra/cloudflare/README.md). The shared DNS zone belongs to `personal-infra`; the private learning service owns its DNS, Pages and Access configuration in `midu-learning`. Each resource belongs to one Terraform state. Credentials and state stay outside Git, and infrastructure changes require a reviewed manual plan/apply.
 
-The proposed GitHub Pages workflow packages only website files through `scripts/build_site.py`. See the infrastructure runbook for the one-time switch from branch/root publishing to GitHub Actions.
+GitHub Pages publishes an artifact containing only website files through `scripts/build_site.py`. The live read-only Cloudflare workflow uses this repository's Actions secrets; its first verification passed on 16 October 2026. See the infrastructure runbook for state adoption and apply prerequisites.
