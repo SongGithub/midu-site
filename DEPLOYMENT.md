@@ -35,6 +35,10 @@ During the cutover, Access redirected the certificate-validation endpoint to log
 
 ## Update and roll back
 
+Terraform configuration for the public `www` and `blog` records is in [infra/cloudflare/](infra/cloudflare/README.md). The shared zone is owned by `personal-infra`; the private learning repository owns `learn` DNS, Pages and Access. Import the existing resources and obtain a no-change plan before treating the stacks as authoritative. A code revert does not itself revert infrastructure.
+
+When introducing the Pages workflow, switch Settings → Pages → Source to **GitHub Actions** before merging the first workflow change. That workflow packages only `index.html`, `CNAME`, `.nojekyll` and `assets/`; it must not upload the repository root. Verify the resulting website after deployment. Until this migration is completed, the verified live configuration remains branch/root publishing.
+
 For public-site updates, preview the HTML/CSS locally, review the exact diff, and push the intended files to `main`. Revert a bad commit and push the revert to roll it back.
 
 Export the DNS zone before changing providers. The original VentraIP zone and the Cloudflare BIND export were saved privately during this migration. To move away from Cloudflare, recreate the required records at the replacement DNS provider before switching nameservers at VentraIP. Replace the private site's Access protection before sending its traffic to a new host. DNS export does not include Access applications or policies.

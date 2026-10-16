@@ -1,2 +1,18 @@
 .DS_Store
 *.log
+
+# Terraform: commit configuration and the provider lockfile, never local state.
+**/.terraform/
+**/__pycache__/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+*.auto.tf.json
+crash.log
+crash.*.log
+.env
+.env.*
+/dist/

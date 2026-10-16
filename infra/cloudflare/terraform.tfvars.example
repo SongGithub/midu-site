@@ -1,0 +1,6 @@
+# Copy to terraform.tfvars (ignored), then replace every placeholder.
+zone_id = "11111111111111111111111111111111"
+existing_dns = {
+  www = "22222222222222222222222222222222"
+  blog = "33333333333333333333333333333333"
+}

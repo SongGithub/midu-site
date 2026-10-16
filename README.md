@@ -13,3 +13,9 @@ This repository is published from `main` through GitHub Pages at [www.midu.com.a
 Domain registration remains at VentraIP. Cloudflare manages DNS; the public website and blog use DNS-only records and continue to be served by GitHub Pages. See [DEPLOYMENT.md](DEPLOYMENT.md) for the current setup and rollback procedure.
 
 The site contains no JavaScript, forms, analytics, or third-party font requests.
+
+## Infrastructure
+
+The public site's DNS configuration lives in [infra/cloudflare/](infra/cloudflare/README.md). The shared DNS zone belongs to `personal-infra`; the private learning service owns its DNS, Pages and Access configuration in `midu-learning`. Each resource belongs to one Terraform state. Credentials and state stay outside Git, and infrastructure changes require a reviewed manual plan/apply.
+
+The proposed GitHub Pages workflow packages only website files through `scripts/build_site.py`. See the infrastructure runbook for the one-time switch from branch/root publishing to GitHub Actions.
