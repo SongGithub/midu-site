@@ -24,7 +24,7 @@ State is local by default and may contain private values even when Terraform mar
 
 ## Adopt existing resources first
 
-This is configuration prepared from the verified dashboard setup; a live API import/no-op plan is still required. It is not evidence that the live resources are already under Terraform management.
+The [first live API import plan](https://github.com/SongGithub/midu-site/actions/runs/38883973346) passed on 16 October 2026: all two resources were import-only or unchanged, with no live mutations planned. The workflow did not apply or persist state, so this is verification of the configuration, not durable Terraform ownership. Complete state adoption below before enabling applies.
 
 1. Export DNS and record Access rules privately before adoption. Collect actual resource IDs from Cloudflare using a read-only token.
 2. Fill the ignored input file and export your token in the shell. Run these commands from this directory:
@@ -66,7 +66,7 @@ Token permissions: DNS Read for adoption, DNS Edit for reviewed changes, scoped 
 
 The Pages workflow packages only `index.html`, `CNAME`, `.nojekyll` and `assets/` through `scripts/build_site.py`. Terraform files, input files, state, docs and other repository files are excluded from the artifact. Do not publish the repository root when adding infrastructure.
 
-For the first workflow migration, change this repository's Settings → Pages → Build and deployment → Source to **GitHub Actions**, then merge the reviewed workflow change and verify the deployment. Until that setting and merge are completed, the live site still uses the previous branch/root publishing configuration. The workflow builds PR artifacts but deploys only `main`; it has no Cloudflare credentials.
+Pages Source was switched to **GitHub Actions** on 16 October 2026, and the first artifact deployment succeeded. Keep that source setting when restoring or reconfiguring the site. Live HTML/CSS matched source, and `/infra/cloudflare/dns.tf` and `/README.md` returned 404. The Pages workflow builds PR artifacts but deploys only `main`; it has no Cloudflare credentials.
 
 ## GitHub Actions secrets: midu-site
 

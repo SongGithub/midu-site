@@ -6,7 +6,7 @@ Verified on 16 October 2026.
 
 | Hostname | Hosting | DNS routing | Access |
 | --- | --- | --- | --- |
-| `www.midu.com.au` | GitHub Pages, this repository's `main` branch and root directory | DNS only | Public |
+| `www.midu.com.au` | GitHub Pages, a website-only artifact built from `main` by GitHub Actions | DNS only | Public |
 | `blog.midu.com.au` | Existing GitHub Pages blog | DNS only | Public |
 | `learn.midu.com.au` | Separate private Cloudflare Pages project | Proxied | Cloudflare Access with Google sign-in and an exact-email allow rule |
 
@@ -37,7 +37,9 @@ During the cutover, Access redirected the certificate-validation endpoint to log
 
 Terraform configuration for the public `www` and `blog` records is in [infra/cloudflare/](infra/cloudflare/README.md). The shared zone is owned by `personal-infra`; the private learning repository owns `learn` DNS, Pages and Access. Import the existing resources and obtain a no-change plan before treating the stacks as authoritative. A code revert does not itself revert infrastructure.
 
-When introducing the Pages workflow, switch Settings → Pages → Source to **GitHub Actions** before merging the first workflow change. That workflow packages only `index.html`, `CNAME`, `.nojekyll` and `assets/`; it must not upload the repository root. Verify the resulting website after deployment. Until this migration is completed, the verified live configuration remains branch/root publishing.
+Pages Source is **GitHub Actions**, verified on 16 October 2026. The workflow packages only `index.html`, `CNAME`, `.nojekyll` and `assets/`; it must not upload the repository root. The [first artifact deployment](https://github.com/SongGithub/midu-site/actions/runs/38883931917) succeeded. Live HTML and CSS matched source, the blog returned 200, the learning homepage redirected to Access, and infrastructure/README URLs returned 404.
+
+The [live Cloudflare adoption check](https://github.com/SongGithub/midu-site/actions/runs/38883973346) also passed using repository-held secrets: both public DNS records were import-only or unchanged, with no live mutations planned. This was a read-only plan, not an apply or durable state adoption. The zone and learning stacks remain separate draft changes awaiting their own credentials and verification.
 
 For public-site updates, preview the HTML/CSS locally, review the exact diff, and push the intended files to `main`. Revert a bad commit and push the revert to roll it back.
 
