@@ -1,39 +1,44 @@
 # Deployment runbook
 
-The new site is published from the separate public repository `SongGithub/midu-site`. GitHub Pages reports a successful build at `https://blog.midu.com.au/midu-site/`. Because the older `SongGithub/songgithub.github.io` user site uses `blog.midu.com.au`, GitHub Pages applies that hostname to project sites too. The `songgithub.github.io/midu-site/` URL redirects to it. Keep the old blog repository and its CNAME in place.
+Verified on 16 October 2026.
 
-## 1. Repair DNS before changing the apex
+## Hosting and domain ownership
 
-Ask the DNS provider to synchronize the `midu.com.au` zone across all three delegated nameservers. On 2026-10-07, authoritative queries were inconsistent: `ns1` refused the zone's SOA and apex A queries, `ns2` refused the SOA query while serving the older apex A record, and `ns3` served the SOA and apex A record. All three returned the blog CNAME in the latest check. Earlier checks also showed intermittent refusal for the blog record. The provider should confirm identical SOA serials and both expected records on all three servers.
+| Hostname | Hosting | DNS routing | Access |
+| --- | --- | --- | --- |
+| `www.midu.com.au` | GitHub Pages, this repository's `main` branch and root directory | DNS only | Public |
+| `blog.midu.com.au` | Existing GitHub Pages blog | DNS only | Public |
+| `learn.midu.com.au` | Separate private Cloudflare Pages project | Proxied | Cloudflare Access with Google sign-in and an exact-email allow rule |
 
-Suggested support request:
+Registration remains at VentraIP. Cloudflare's Free plan manages the DNS zone through `annabel.ns.cloudflare.com` and `chase.ns.cloudflare.com`. The website and blog CNAME records point to `songgithub.github.io`; the learning CNAME points to `midu-learning.pages.dev`.
 
-> The delegated nameservers for midu.com.au are ns1/ns2/ns3.nameserver.net.au, but they do not consistently serve the same authoritative zone. Please restore/synchronize DNS hosting for the domain on all three servers. Confirm that each server answers authoritatively with the same SOA serial, the current apex A record, and `blog.midu.com.au CNAME songgithub.github.io`. Some direct queries currently return REFUSED, causing visitors on different resolvers to get different results.
+The bare `midu.com.au` hostname had no address record in the original VentraIP zone. This migration preserved that state; `www.midu.com.au` is the public site's configured hostname.
 
-Check each server with:
+Keep private learning material in its separate private repository. This public repository contains only a login link. Both sites remain ordinary static files in Git; no Worker or reverse proxy was added.
 
-```sh
-for ns in ns1.nameserver.net.au ns2.nameserver.net.au ns3.nameserver.net.au; do
-  dig "@$ns" +norecurse +noall +comments +answer SOA midu.com.au
-  dig "@$ns" +norecurse +noall +comments +answer A midu.com.au
-  dig "@$ns" +norecurse +noall +comments +answer CNAME blog.midu.com.au
-done
-```
+## Protected learning hostname
 
-Until this is fixed, different visitors can receive different DNS answers. Do not remove the existing blog CNAME during the repair.
+The custom domain must be registered in the Cloudflare Pages project as well as present in DNS. A CNAME alone does not complete the setup. Wait for Pages to show **Active / SSL enabled** before directing visitors there.
 
-## 2. Current GitHub Pages preview
+The custom hostname has its own Access application. The original `midu-learning.pages.dev` production hostname and wildcard preview hostnames retain their existing protection.
 
-The `main` branch is connected to `https://github.com/SongGithub/midu-site.git`; Pages publishes from the repository root. The homepage and both case-study paths returned HTTP 200 on 2026-10-08. Both the blog and project Pages settings have HTTPS enforcement enabled. Public copy and contact details still need Song's review before calling this the finished site.
+Certificate issuance and renewal require public access only to `learn.midu.com.au/.well-known/acme-challenge/*`. A dedicated Access application permits that path. All learning pages and assets remain protected. The private site's top-level `404.html` prevents unknown validation paths from falling back to private homepage content. Do not put private files under the certificate-validation path or remove that 404 safeguard.
 
-The preview inherits the blog hostname. If a visitor's resolver reaches one of the inconsistent nameservers, this preview may fail despite the successful Pages build. A Cloudflare Pages deployment would provide a separate `<project>.pages.dev` preview; see `specs/002-static-hosting/hosting-options.md`.
+During the cutover, Access redirected the certificate-validation endpoint to login, leaving Pages verification pending and producing 522 responses on some authenticated requests. Allowing only the validation path resolved this setup issue. It does not establish the cause of the earlier reported intermittent failure on the original `pages.dev` address.
 
-## 3. Connect `midu.com.au`
+## Verify a change
 
-If GitHub Pages remains the host, add `midu.com.au` as the custom domain in the new repository's Pages settings. At the DNS provider, replace the apex's previous web-hosting A record with the current GitHub Pages apex values from [GitHub's documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site). Preserve `blog.midu.com.au → songgithub.github.io`. Add the domain's `CNAME` file to this repository if GitHub does not create it automatically for branch publishing.
+1. Confirm `www.midu.com.au` and `blog.midu.com.au` still return HTTP 200 from GitHub Pages.
+2. Confirm signed-out requests to the learning homepage, guides, and CSS redirect to Cloudflare Access rather than return private content. Repeat for the original production hostname and an immutable preview URL.
+3. Confirm an unknown URL under the certificate-validation path returns the generic 404 page without private content. Similar paths outside that exact prefix must still require login.
+4. In an approved Google session, open the learning homepage, Interview prep, Running, and a guide. Check styling and links, not just the login page.
 
-When the certificate is ready, enable **Enforce HTTPS**. Check the apex homepage, both case studies, the temporary Pages URL's redirect, and the old blog from more than one network.
+## Update and roll back
 
-## 4. Update and roll back
+For public-site updates, preview the HTML/CSS locally, review the exact diff, and push the intended files to `main`. Revert a bad commit and push the revert to roll it back.
 
-For a normal site update, edit the checked-in HTML and CSS, preview locally, and push a commit to `main`. To undo a bad update, revert that commit and push the revert. To undo a domain cutover, first remove the custom domain in Pages settings, then restore the DNS records recorded before the cutover. Keep a copy of the old DNS record set before changing it.
+Export the DNS zone before changing providers. The original VentraIP zone and the Cloudflare BIND export were saved privately during this migration. To move away from Cloudflare, recreate the required records at the replacement DNS provider before switching nameservers at VentraIP. Replace the private site's Access protection before sending its traffic to a new host. DNS export does not include Access applications or policies.
+
+VentraIP warns that old hosted DNS records become inactive after a nameserver switch and are removed after 72 hours. Restore them from the backup before using the former nameservers for rollback; do not assume the old zone remains available.
+
+References: [Pages custom domains](https://developers.cloudflare.com/pages/configuration/custom-domains/), [Pages verification troubleshooting](https://developers.cloudflare.com/pages/configuration/debugging-pages/), [DNS import and export](https://developers.cloudflare.com/dns/manage-dns-records/how-to/import-and-export/).

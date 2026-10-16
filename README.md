@@ -8,6 +8,8 @@ From the repository root, run `python3 -m http.server 8766`, then open `http://1
 
 ## Hosting
 
-This repository is published from `main` through GitHub Pages at [the temporary preview](https://blog.midu.com.au/midu-site/). It lives in a separate repository from the older blog. GitHub Pages inherits the blog's custom domain for project sites, so `songgithub.github.io/midu-site/` redirects to the blog hostname. DNS for `midu.com.au` still needs repair before the apex can be connected. See [DEPLOYMENT.md](DEPLOYMENT.md) and the [hosting comparison](specs/002-static-hosting/hosting-options.md).
+This repository is published from `main` through GitHub Pages at [www.midu.com.au](https://www.midu.com.au/). The older blog remains at [blog.midu.com.au](https://blog.midu.com.au/). The private learning library uses [learn.midu.com.au](https://learn.midu.com.au/) on Cloudflare Pages with Cloudflare Access and Google sign-in.
+
+Domain registration remains at VentraIP. Cloudflare manages DNS; the public website and blog use DNS-only records and continue to be served by GitHub Pages. See [DEPLOYMENT.md](DEPLOYMENT.md) for the current setup and rollback procedure.
 
 The site contains no JavaScript, forms, analytics, or third-party font requests.
