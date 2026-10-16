@@ -26,4 +26,6 @@ Clearing site data or using a new/private browser session requires excluding tha
 
 The public site's DNS configuration lives in [infra/cloudflare/](infra/cloudflare/README.md). The shared DNS zone belongs to `personal-infra`; the private learning service owns its DNS, Pages and Access configuration in `midu-learning`. Each resource belongs to one Terraform state. Credentials and state stay outside Git, and infrastructure changes require a reviewed manual plan/apply.
 
+Web Analytics has a separate [Terraform configuration](infra/cloudflare/analytics/README.md). It is validated offline; importing the existing analytics site into durable Terraform state remains pending. Its account permissions are separate from the DNS read-only workflow.
+
 GitHub Pages publishes an artifact containing only website files through `scripts/build_site.py`. The live read-only Cloudflare workflow uses this repository's Actions secrets; its first verification passed on 16 October 2026. See the infrastructure runbook for state adoption and apply prerequisites.
