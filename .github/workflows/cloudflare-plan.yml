@@ -42,7 +42,7 @@ jobs:
           fi
           task_dir=$(mktemp -d)
           trap 'rm -rf "$task_dir"' EXIT
-          printf '%s' "$CLOUDFLARE_TFVARS_JSON" > "$task_dir/inputs.tfvars.json"
+          python3 discover_dns.py "$task_dir/inputs.tfvars.json"
           # Plans/logs may contain private values: keep them temporary and unprinted.
           unset TF_LOG TF_LOG_PATH
           if ! terraform init -backend=false -input=false -lockfile=readonly -no-color > "$task_dir/init.log" 2>&1; then

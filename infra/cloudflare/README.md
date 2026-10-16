@@ -73,7 +73,7 @@ For the first workflow migration, change this repository's Settings → Pages �
 For this stack, save credentials in **SongGithub/midu-site → Settings → Secrets and variables → Actions → Repository secrets**. Do not place its token in another project's repository.
 
 - `CLOUDFLARE_API_TOKEN`: a read-only token with DNS Read for `midu.com.au`, scoped to the existing account/zone. Cloudflare DNS token scope is zone-wide, not individual-record-wide.
-- `CLOUDFLARE_TFVARS_JSON`: a JSON object containing this stack's actual Terraform input values, with the same keys as `terraform.tfvars.example`. Include resource IDs, not the API token. For example, an HCL `zone_id = "..."` becomes JSON `"zone_id": "..."`; nested objects keep their keys. Do not use another stack's input file or the placeholder IDs.
+- `CLOUDFLARE_TFVARS_JSON`: initially just `{"zone_id":"<actual-zone-id>"}`. The runner uses DNS Read requests to discover exactly one existing CNAME ID for each of `www.midu.com.au` and `blog.midu.com.au`, then fills Terraform's `existing_dns` input. Missing or ambiguous records stop the check. You can alternatively supply explicit actual `existing_dns` IDs using the shape in `terraform.tfvars.example`. Do not include the API token, another stack's inputs or placeholder IDs.
 
 After the workflow is merged into `main`, open **Actions → Verify live Cloudflare adoption → Run workflow**, selecting `main`. The job refuses other branches. The normal PR checks continue using dummy inputs and mocked provider responses; they receive no Cloudflare token.
 
