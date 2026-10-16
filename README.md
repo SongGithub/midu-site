@@ -12,7 +12,15 @@ This repository is published from `main` through GitHub Pages at [www.midu.com.a
 
 Domain registration remains at VentraIP. Cloudflare manages DNS; the public website and blog use DNS-only records and continue to be served by GitHub Pages. See [DEPLOYMENT.md](DEPLOYMENT.md) for the current setup and rollback procedure.
 
-The site contains no JavaScript, forms, analytics, or third-party font requests.
+The site uses a small browser-exclusion loader for Cloudflare Web Analytics. It contains no forms or third-party font requests.
+
+## Visitor counts
+
+Cloudflare Web Analytics measures visits and page views on `www.midu.com.au` from deployment onward. It does not identify unique people or recover past traffic. In Cloudflare, open Observability → Analytics → Web analytics, select `www.midu.com.au`, and read **Visits** for the desired date range with **Exclude bots** enabled.
+
+To exclude your own visits, open [this browser-exclusion link](https://www.midu.com.au/?analytics=off) once in each browser/profile and device you use. The page confirms that this browser is excluded, and the analytics beacon never loads in that browser. A local-storage flag saves only this choice, not a visitor identifier. To reverse it, open [the inclusion link](https://www.midu.com.au/?analytics=on); counting resumes on the next visit.
+
+Clearing site data or using a new/private browser session requires excluding that browser again. Blocked scripts or unavailable browser storage can also reduce the count. Blog, private learning pages, previews and localhost are not included by this loader. The collection token in HTML is public by design; it is not the Cloudflare API token stored in GitHub secrets.
 
 ## Infrastructure
 
