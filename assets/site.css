@@ -1,4 +1,5 @@
 :root{--ink:#1d2925;--muted:#506059;--paper:#f7f7f1;--line:#d3dbd3;--accent:#17644e;--accent-dark:#0c4938;--soft:#e6ede5;--max:1160px}
+.analytics-notice{padding:.65rem 0;background:var(--soft);border-bottom:1px solid var(--line);color:var(--accent-dark);font-size:.9rem}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.6}

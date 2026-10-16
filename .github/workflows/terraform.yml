@@ -14,9 +14,12 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stack: [infra/cloudflare, infra/cloudflare/analytics]
     defaults:
       run:
-        working-directory: infra/cloudflare
+        working-directory: ${{ matrix.stack }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
@@ -26,4 +29,5 @@ jobs:
       - run: terraform init -backend=false -input=false -lockfile=readonly
       - run: terraform validate
       - run: terraform test -var-file=terraform.tfvars.example
-      - run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - if: matrix.stack == 'infra/cloudflare'
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
