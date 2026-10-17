@@ -12,7 +12,7 @@ This repository is published from `main` through GitHub Pages at [www.midu.com.a
 
 Domain registration remains at VentraIP. Cloudflare manages DNS; the public website and blog use DNS-only records and continue to be served by GitHub Pages. See [DEPLOYMENT.md](DEPLOYMENT.md) for the current setup and rollback procedure.
 
-The site uses a small browser-exclusion loader for Cloudflare Web Analytics. It contains no forms or third-party font requests.
+The site uses a small browser-exclusion loader for Cloudflare Web Analytics. It contains a contact form and no third-party font requests.
 
 ## Visitor counts
 
@@ -29,3 +29,9 @@ The public site's DNS configuration lives in [infra/cloudflare/](infra/cloudflar
 Web Analytics has a separate [Terraform configuration](infra/cloudflare/analytics/README.md). It is validated offline; importing the existing analytics site into durable Terraform state remains pending. Its account permissions are separate from the DNS read-only workflow.
 
 GitHub Pages publishes an artifact containing only website files through `scripts/build_site.py`. The live read-only Cloudflare workflow uses this repository's Actions secrets; its first verification passed on 16 October 2026. See the infrastructure runbook for state adoption and apply prerequisites.
+
+## Contact enquiries
+
+The contact section accepts recruitment and business enquiries. Name, email and message are required; phone and organisation are optional. A native HTTPS POST sends the details through FormSubmit to `songjin@hotmail.com`. Its default CAPTCHA and confirmation page remain enabled. No form data is saved in the repository, browser storage or analytics. The form works without JavaScript.
+
+**Activation / verification:** submit a clearly labelled owner test from `https://www.midu.com.au/#connect`, then follow FormSubmit’s activation email in the recipient inbox (check junk). Submit again after activation and confirm the message arrives and Reply uses the visitor email. Until that received test is confirmed, delivery is unverified. Existing direct-email and LinkedIn links remain available. FormSubmit processes submissions under its own privacy policy; delete enquiries from the recipient mailbox when no longer needed. No public submissions archive is maintained.
