@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A practical, authenticated MCP service for private knowledge retrieval and write-back, built with evaluation gates and infrastructure as code.">
+    <meta name="description" content="Compounding personal experience across AI tools: from a local Obsidian MCP to an authenticated cloud knowledge service, with retrieval evaluation and infrastructure as code.">
     <title>Personal Knowledge Base MCP — Song Jin</title>
     <link rel="stylesheet" href="../../assets/site.css">
   </head>
@@ -17,20 +17,80 @@
       <a class="back-link" href="../../#work">← All selected work</a>
       <header class="case-header">
         <p class="eyebrow">Personal project · 2026 · AI platform engineering</p>
-        <h1>One knowledge base, available to the AI tools I use</h1>
-        <p class="lead">I built a private, cloud-hosted MCP service so compatible AI clients can search my knowledge base and write new notes through a governed interface, without giving each assistant shell or SSH access to my home machine.</p>
+        <h1>Making personal experience compound across AI tools</h1>
+        <p class="lead">I want AI to become more useful to me over time. That means giving it relevant context about my experience, decisions and ways of working—and capturing useful new learning so the next task starts with more than an empty chat.</p>
       </header>
       <div class="case-layout">
         <div class="case-content">
-          <section aria-labelledby="problem-title"><h2 id="problem-title">The problem</h2><p>My notes were useful to the AI tools with local access, but isolated from assistants that could not reach my home setup. Copying knowledge between tools is cumbersome; granting broad machine access is a poor interface for a system that should expose only specific knowledge operations.</p><p>The goal was a durable service boundary: authenticate the person, authorize each operation in the backend, keep the Markdown source of truth private, and make the same MCP tools available to different AI clients.</p></section>
-          <section aria-labelledby="value-title"><h2 id="value-title">Business value</h2><ul><li><strong>Less repeated context setup:</strong> assistants can retrieve relevant notes from one shared source instead of relying on per-chat uploads or local machine access.</li><li><strong>Knowledge can compound:</strong> an AI can propose and write a raw note through MCP; the normal ingestion pipeline can then chunk, embed and index it for later retrieval.</li><li><strong>Narrower access:</strong> Google sign-in establishes identity; the MCP backend enforces authorization for search, fetch and write operations. The AI receives tool-level capabilities, not an SSH shell.</li><li><strong>Portable interface:</strong> MCP separates the client's model and host from the knowledge service, making the same tools usable across compatible AI products.</li></ul></section>
-          <section aria-labelledby="architecture-title"><h2 id="architecture-title">Architecture</h2><p>Markdown notes live in a private, encrypted S3 bucket. A separate private bucket stores the generated retrieval snapshot. An API Gateway HTTP endpoint fronts Lambda-based MCP and OAuth handling; the backend applies Google identity and service-side authorization. SQS and a worker support ingestion, while DynamoDB holds operational control state. Cohere Embed Multilingual v3 on Amazon Bedrock in Sydney generates document and query embeddings.</p><p>CloudFormation defines the AWS resources. A pinned CodeBuild release pipeline runs infrastructure lint, cloud service tests, the retrieval evaluation when the model or retrieval configuration changes, and then deploys the application. Cloudflare manages the custom DNS record; the API Gateway endpoint also remains available for unauthenticated smoke checks.</p></section>
-          <section aria-labelledby="eval-title"><h2 id="eval-title">Evaluation is part of the release path</h2><p>I expanded a fully synthetic benchmark to 20 notes and 33 judged queries, covering paraphrases, similar notes with different answers, exact identifiers and English/Chinese cross-language retrieval. It compares lexical, pure vector and hybrid strategies against the same query embeddings. No private note content is sent to this benchmark.</p><p>On the latest live Bedrock run, hybrid ranked the expected note first for 29 of 33 queries and in the top three for all 33. Pure vector reached 28/33 top one and 33/33 top three. Hybrid also reached 7/7 exact-identifier top one and 6/6 cross-language top three. These results pass the configured quality floor and default-winner gate. They are evidence on a synthetic fixture, not a claim of measured relevance on my private corpus; an owner-judged question set remains the next quality step.</p><p>The gate runs when the pinned model or retrieval configuration changes. This keeps model changes accountable without charging for a Bedrock benchmark on unrelated DNS-only changes.</p></section>
-          <section aria-labelledby="engineering-title"><h2 id="engineering-title">An AI-native engineering workflow</h2><p>I used MCP as the product interface and as an engineering boundary: tools have explicit contracts, identity is separate from authorization, and read/write behavior can be exercised without exposing a host machine. SpecKit artifacts record requirements, design decisions and implementation tasks. Tests cover the HTTP and Lambda adapters, storage and authorization boundaries, plus ranking behavior. The synthetic evaluation checks retrieval quality, while the deployment pipeline checks that infrastructure and application changes are reproducible.</p><p>AI-assisted implementation was useful for iterating across the spec, code, benchmark and infrastructure. The important control was a reviewable source commit and an automated quality gate before the release, not trusting generated code or a single successful demo.</p></section>
-          <section aria-labelledby="status-title"><h2 id="status-title">Current status and limits</h2><p>The cloud service and raw API Gateway URL are deployed. The health endpoint returns 200, and an unauthenticated MCP request receives the expected 401 Bearer challenge. The ACM certificate for <code>mcp.midu.com.au</code> is issued. Creating the API Gateway custom-domain mapping is pending an AWS account-level permission adjustment; the current deployment identity is explicitly blocked from that operation. ChatGPT OAuth also needs the exact callback URI from its custom-server setup added to the backend allowlist before authenticated use.</p><p>The current benchmark is synthetic and small. Retrieval abstention, broader private-corpus relevance and operational latency under regular use remain open areas. The service is a personal project, not a production offering for other users.</p></section>
+          <section aria-labelledby="purpose-title">
+            <h2 id="purpose-title">A knowledge base that compounds experience</h2>
+            <p>The purpose of my personal KB is to make experience reusable in an agentic AI system. A useful lesson from one task should help with the next. An assistant should be able to retrieve the context that matters, apply it to the current problem, and capture new learning for future use.</p>
+            <p>This is also about making AI more useful to me personally. My preferences, previous decisions and accumulated experience provide context that a general model does not have. Keeping that context in one knowledge base gives different assistants a shared foundation, while letting me change models and tools.</p>
+            <p>The intended loop is straightforward: retrieve relevant experience → work on a task → capture a learning → index it → retrieve it when it becomes useful again. New AI-written notes are raw captures; saving and indexing them does not make them approved knowledge.</p>
+          </section>
+          <section aria-labelledby="evolution-title">
+            <h2 id="evolution-title">From a local Obsidian MCP to a cloud service</h2>
+            <p>The first generation used an Obsidian Markdown vault, a local retrieval index and a local MCP server. Local agents could search and fetch notes through defined tools. It established that my existing notes could become usable context for AI.</p>
+            <p>It also exposed two limits. The computer hosting the MCP server had to be running, and cloud-based AI such as ChatGPT could not directly reach that local service. The usefulness of the KB depended on where an assistant ran.</p>
+            <p>The second generation moves the service boundary to AWS. Private Markdown and retrieval snapshots live in S3, and a public HTTPS MCP endpoint handles authenticated requests. Compatible desktop and cloud clients can connect through OAuth, with permissions enforced by the backend. Each client still needs to complete onboarding and receive its own access grant.</p>
+          </section>
+          <section aria-labelledby="value-title">
+            <h2 id="value-title">Why this matters beyond the technology</h2>
+            <ul>
+              <li><strong>Carry experience between tasks:</strong> lessons can become retrievable context instead of disappearing into individual conversations.</li>
+              <li><strong>Spend less effort rebuilding context:</strong> assistants can find relevant notes without repeated copy-and-paste or per-chat uploads.</li>
+              <li><strong>Keep continuity across AI tools:</strong> knowledge stays with me as I switch clients or models.</li>
+              <li><strong>Remove the laptop dependency:</strong> the cloud service can serve authorised clients while the original computer is offline.</li>
+              <li><strong>Expose useful capabilities:</strong> search, fetch and bounded note capture give AI access to the KB through a defined interface.</li>
+            </ul>
+            <p>These are the outcomes the system is designed to support. The measured evidence so far is retrieval quality on a synthetic benchmark; I have not measured a productivity improvement from everyday use.</p>
+          </section>
+          <section aria-labelledby="architecture-title">
+            <h2 id="architecture-title">Architecture: context in, learning back</h2>
+            <p>AWS API Gateway fronts a Lambda MCP service. Google sign-in establishes identity; the backend checks the owner, registered client, scope and allowed path for each tool call. Google authentication and KB authorisation are separate decisions.</p>
+            <p>Markdown is the canonical source in a private, versioned S3 bucket, encrypted at rest. A separate private bucket holds disposable SQLite retrieval snapshots with lexical and vector indexes. Cohere Embed Multilingual v3 on Amazon Bedrock in Sydney generates document and query embeddings.</p>
+            <p>The <code>capture_learning</code> tool persists a raw note under the permitted <code>Ideas/</code> boundary before queueing ingestion. An SQS worker chunks the note, generates embeddings and publishes an updated snapshot. This makes new learning retrievable without treating an embedding database as the source of truth.</p>
+            <figure class="case-figure">
+              <a href="../../assets/personal-kb/cloud-architecture-miro.png" aria-label="Open the full-size cloud architecture screenshot"><img src="../../assets/personal-kb/cloud-architecture-miro.png" width="1760" height="1320" loading="lazy" alt="Miro diagram showing MCP clients reaching API Gateway and Lambda, hybrid retrieval over private S3 storage, the note capture and ingestion path, and separate identity and authorisation controls."></a>
+              <figcaption>Second generation architecture, captured from the Personal Lab Architecture Miro board on 19 October 2026. Select the image to view it full size. <a href="../../assets/personal-kb/cloud-architecture.svg">SVG version</a>.</figcaption>
+            </figure>
+          </section>
+          <section aria-labelledby="engineering-title">
+            <h2 id="engineering-title">Engineering an AI system with reviewable evidence</h2>
+            <p>I used an AI-native development workflow across requirements, code, evaluation and deployment. SpecKit records the requirements, design and implementation tasks. AI-assisted changes are reviewed against those artefacts, explicit tool contracts and executable checks.</p>
+            <p>There are several different questions to answer: does the code work, does access control hold, can retrieval find the right note, and can the system be deployed repeatably? Service tests exercise HTTP and Lambda behaviour, storage and authorisation. Retrieval evaluation measures ranking quality. CloudFormation and a pinned release pipeline make infrastructure and application changes reviewable.</p>
+            <p>That combination matters because a successful tool call alone says little about whether the assistant found the right context or respected the intended access boundary.</p>
+          </section>
+          <section aria-labelledby="eval-title">
+            <h2 id="eval-title">Evaluate retrieval before choosing a default</h2>
+            <p>I compared lexical, pure vector and hybrid retrieval rather than assuming that hybrid must be best. An early 14-query fixture favoured pure vector on top-one accuracy. I expanded the evaluation before choosing the default: 20 synthetic notes and 33 judged queries, including paraphrases, similar notes with different answers, exact identifiers and English/Chinese cross-language retrieval.</p>
+            <table class="case-table">
+              <caption>Expanded live Bedrock benchmark · 33 synthetic queries</caption>
+              <thead><tr><th scope="col">Strategy</th><th scope="col">Expected note ranked first</th><th scope="col">Expected note in top three</th></tr></thead>
+              <tbody><tr><th scope="row">Hybrid</th><td>29 / 33</td><td>33 / 33</td></tr><tr><th scope="row">Pure vector</th><td>28 / 33</td><td>33 / 33</td></tr></tbody>
+            </table>
+            <p>Hybrid also reached 7/7 exact-identifier top one and 6/6 cross-language top three. Those results support hybrid as the current default on this fixture. They do not establish that it is best for every corpus or query.</p>
+            <p>The evaluation uses synthetic content. It checks the embedding model together with chunking, indexing and ranking; it does not isolate embedding quality, measure generated answer quality, or prove relevance on my private notes. An owner-judged question set from regular use is the next step.</p>
+          </section>
+          <section aria-labelledby="delivery-title">
+            <h2 id="delivery-title">CI/CD: quality gates at the right stage</h2>
+            <p>GitHub Actions runs credential-free infrastructure validation and synthetic service checks on pull requests. The current AWS release path is an on-demand CodeBuild job started at an explicitly selected source commit. CodeBuild uses its scoped AWS service role to package and deploy through CloudFormation.</p>
+            <p>The live Bedrock retrieval benchmark is mandatory when the pinned embedding model or retrieval configuration changes. Unrelated changes still run the normal validation and service tests, while avoiding a paid model benchmark on every deployment. A failing required quality gate blocks the release.</p>
+            <figure class="case-figure">
+              <a href="../../assets/personal-kb/ci-cd-miro.png" aria-label="Open the full-size CI/CD screenshot"><img src="../../assets/personal-kb/ci-cd-miro.png" width="1760" height="1320" loading="lazy" alt="Miro CI/CD diagram separating GitHub Actions pull request validation from an operator-triggered CodeBuild release, with conditional live retrieval evaluation before CloudFormation deployment and smoke checks."></a>
+              <figcaption>CI/CD and retrieval evaluation flow, captured from the same Miro board. GitHub Actions deployment is inactive; AWS releases currently require an operator trigger. <a href="../../assets/personal-kb/ci-cd.svg">SVG version</a>.</figcaption>
+            </figure>
+            <p>After deployment, health and unauthenticated rejection checks confirm basic service behaviour. An authenticated client still needs an OAuth and permission acceptance check. Those checks answer different questions from the retrieval benchmark.</p>
+          </section>
+          <section aria-labelledby="status-title">
+            <h2 id="status-title">Current status and next evidence</h2>
+            <p>The cloud service, private S3 note copy and full hybrid index are deployed at the raw API Gateway endpoint. The desktop OAuth callback rejection has been fixed and deployed; registration now reaches authorisation. Completing client sign-in and verifying its KB permissions remain separate onboarding steps.</p>
+            <p>The certificate for <code>mcp.midu.com.au</code> is issued. API Gateway custom-domain creation remains blocked by an AWS organisation permission, so the custom hostname is not live yet.</p>
+            <p>The next evidence should come from everyday use: owner-judged retrieval questions, whether captured learnings help with later tasks, and how reliably the service handles freshness, latency and client access. Those checks will show whether the knowledge loop is actually compounding useful experience.</p>
+          </section>
           <div class="hero-actions"><a class="button button-primary" href="https://github.com/SongGithub/personal-knowledge-base">Inspect the implementation <span aria-hidden="true">↗</span></a><a class="text-link" href="https://github.com/SongGithub/personal-knowledge-base/pull/4">Review the deployment work <span aria-hidden="true">↗</span></a></div>
         </div>
-        <aside class="case-aside" aria-label="Project summary"><p class="eyebrow">At a glance</p><dl><dt>Stage</dt><dd>Deployed raw endpoint; custom-domain permission and OAuth callback pending</dd><dt>Interface</dt><dd>Model Context Protocol (MCP)</dd><dt>Identity</dt><dd>Google OAuth; backend-enforced authorization</dd><dt>Runtime</dt><dd>AWS API Gateway, Lambda, S3, SQS and DynamoDB</dd><dt>Embeddings</dt><dd>Cohere Embed Multilingual v3 via Bedrock Sydney</dd><dt>Quality gate</dt><dd>33 synthetic queries; hybrid 29/33 top one</dd><dt>Delivery</dt><dd>CloudFormation and pinned CodeBuild release pipeline</dd></dl></aside>
+        <aside class="case-aside" aria-label="Project summary"><p class="eyebrow">At a glance</p><dl><dt>Stage</dt><dd>Second generation deployed; client onboarding in progress</dd><dt>Purpose</dt><dd>Compound experience and provide personal context to AI</dd><dt>Evolution</dt><dd>Local Obsidian MCP → authenticated cloud MCP</dd><dt>Interface</dt><dd>Model Context Protocol (MCP)</dd><dt>Identity</dt><dd>Google OAuth; backend-enforced authorization</dd><dt>Runtime</dt><dd>AWS API Gateway, Lambda, S3, SQS and DynamoDB</dd><dt>Embeddings</dt><dd>Cohere Embed Multilingual v3 via Bedrock Sydney</dd><dt>Quality gate</dt><dd>33 synthetic queries; hybrid 29/33 top one</dd><dt>Delivery</dt><dd>CloudFormation and pinned CodeBuild release pipeline</dd></dl></aside>
       </div>
     </main>
     <footer class="site-footer"><div class="shell footer-inner"><span>© 2026 Song Jin</span><div><a href="https://github.com/SongGithub">GitHub</a><a href="https://github.com/SongGithub/songgithub.github.io-src/tree/master/content">Writing archive</a></div></div></footer>

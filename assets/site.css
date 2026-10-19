@@ -59,3 +59,5 @@ h2{font-size:clamp(2.3rem,4.5vw,4rem);font-weight:600;margin-bottom:0}h3{font-si
 .form-hint,.contact-alternatives{color:var(--muted);font-size:.85rem;line-height:1.6}
 .contact-form button{cursor:pointer;font-family:inherit}.contact-alternatives{margin-top:1.5rem}
 @media(max-width:540px){.contact-fields{grid-template-columns:1fr}}
+
+.case-figure{margin:1.8rem 0 2.2rem}.case-figure>a{display:block;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f8fafc}.case-figure img{display:block;width:100%;height:auto}.case-figure figcaption{font-size:.85rem;line-height:1.6;color:var(--muted);margin-top:.8rem}.case-figure figcaption a{color:var(--accent)}.case-table{border-collapse:collapse;width:100%;margin:1.5rem 0;font-size:.95rem}.case-table caption{text-align:left;font-weight:700;margin-bottom:.8rem}.case-table th,.case-table td{text-align:left;padding:.8rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}.case-table thead th{color:var(--accent);font-size:.8rem}.case-content li+li{margin-top:.65rem}

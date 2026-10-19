@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="930" viewBox="0 0 1500 930"><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#506c87"/></marker></defs><rect width="1500" height="930" fill="#f8fafc"/>
+<text x="50" y="65" fill="#12304a" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700">Personal KB · CI / CD and retrieval evaluation</text>
+<text x="50" y="103" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="400">GitHub Actions validates pull requests · AWS CodeBuild deploys an explicitly selected source commit</text>
+<text x="50" y="155" fill="#2563a6" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700">01  PULL REQUEST · GITHUB ACTIONS</text>
+<rect x="50" y="185" width="300" height="140" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="70" y="219" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">SpecKit + source change</text>
+<text x="70" y="251" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Requirements, design and tasks</text>
+<text x="70" y="277" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Reviewable code and IaC</text>
+<rect x="420" y="185" width="430" height="140" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="440" y="219" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Credential-free validation</text>
+<text x="440" y="251" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">CloudFormation lint + service tests</text>
+<text x="440" y="277" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Synthetic auth, storage and retrieval checks</text>
+<rect x="920" y="185" width="530" height="140" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="940" y="219" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Review and merge</text>
+<text x="940" y="251" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">PR checks must pass</text>
+<text x="940" y="277" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">AWS deployment through GHA is inactive</text>
+<polyline points="350,255 420,255" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="850,255 920,255" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="50" y="385" fill="#2563a6" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700">02  RELEASE · AWS CODEBUILD</text>
+<rect x="50" y="415" width="300" height="140" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="70" y="449" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Operator starts release</text>
+<text x="70" y="481" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Select exact source SHA</text>
+<text x="70" y="507" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Local AWS operator credentials</text>
+<rect x="420" y="415" width="430" height="140" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="440" y="449" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">CodeBuild validation</text>
+<text x="440" y="481" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Scoped AWS service role</text>
+<text x="440" y="507" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Pinned dependencies · lint · service tests</text>
+<rect x="920" y="415" width="530" height="140" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="940" y="449" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Model / retrieval config changed?</text>
+<text x="940" y="481" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Yes: live Bedrock retrieval evaluation</text>
+<text x="940" y="507" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">No: skip paid model evaluation</text>
+<polyline points="350,485 420,485" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="850,485 920,485" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="920" y="610" width="530" height="150" rx="14" fill="#eaf6ef" stroke="#6d9f89" stroke-width="2"/>
+<text x="940" y="644" fill="#216b50" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Retrieval quality gate</text>
+<text x="940" y="676" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">33 queries · lexical / vector / hybrid</text>
+<text x="940" y="702" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Quality floors + default winner when required</text>
+<text x="940" y="728" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Failure blocks release · report metrics</text>
+<polyline points="1185,555 1185,610" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1200" y="585" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400">yes</text>
+<rect x="50" y="610" width="370" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="70" y="644" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">CloudFormation deployment</text>
+<text x="70" y="676" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Foundation + immutable code release</text>
+<text x="70" y="702" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Scoped provisioning + runtime roles</text>
+<text x="70" y="728" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Private S3 artifact pinned by SHA-256</text>
+<rect x="490" y="610" width="360" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="510" y="644" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Release and smoke checks</text>
+<text x="510" y="676" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Health 200 · MCP rejects missing token</text>
+<text x="510" y="702" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Preserve active hybrid index</text>
+<text x="510" y="728" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Owner OAuth tested separately</text>
+<polyline points="920,685 870,685 870,590 230,590 230,610" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="600" y="580" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400">pass</text>
+<polyline points="1450,485 1475,485 1475,580 230,580 230,610" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="420,685 490,685" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="50" y="830" fill="#12304a" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700">Evaluation compares retrieval behaviour, including exact IDs, paraphrases, distractors and English / Chinese queries.</text>
+<text x="50" y="866" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">The benchmark tests synthetic relevance. It does not measure private-corpus answer quality or replace OAuth and access checks.</text>
+<text x="50" y="902" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Read-only PR checks and operator-triggered AWS releases are the current flow; autonomous GitHub-to-AWS delivery is future work.</text>
+</svg>
