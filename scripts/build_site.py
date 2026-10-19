@@ -13,4 +13,5 @@ output.mkdir()
 for name in ("index.html", "CNAME", ".nojekyll"):
     shutil.copyfile(root / name, output / name)
 shutil.copytree(root / "assets", output / "assets")
-print("Website packaged in dist/: HTML, CNAME, .nojekyll and assets only.")
+shutil.copytree(root / "work", output / "work")
+print("Website packaged in dist/: HTML, CNAME, .nojekyll, assets and selected work pages only.")
