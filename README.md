@@ -1,6 +1,6 @@
 # Midu personal site
 
-A dependency-free static site draft for Song Jin. Project descriptions are grounded in already public repositories and writing. Song should review the positioning and project copy and provide an approved contact route before launch.
+A dependency-free static site for Song Jin. Project descriptions are grounded in public repositories and engineering evidence. Song should review project positioning and copy before launch.
 
 ## Preview
 
