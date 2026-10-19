@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="930" viewBox="0 0 1500 930"><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#506c87"/></marker></defs><rect width="1500" height="930" fill="#f8fafc"/>
+<text x="50" y="65" fill="#12304a" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700">Personal KB · second generation architecture</text>
+<text x="50" y="103" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="400">Compounding experience across AI clients · deployed AWS service · 19 October 2026</text>
+<text x="50" y="153" fill="#2563a6" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700">01  RETRIEVE CONTEXT</text>
+<rect x="50" y="180" width="290" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="70" y="214" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Compatible AI clients</text>
+<text x="70" y="246" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Desktop and cloud assistants</text>
+<text x="70" y="272" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">OAuth / PKCE over HTTPS</text>
+<text x="70" y="298" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Client onboarding required</text>
+<rect x="410" y="180" width="280" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="430" y="214" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">API Gateway + Lambda</text>
+<text x="430" y="246" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">MCP tools and OAuth broker</text>
+<text x="430" y="272" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">search_kb · fetch_note</text>
+<text x="430" y="298" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">capture_learning</text>
+<rect x="770" y="180" width="290" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="790" y="214" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Hybrid retrieval</text>
+<text x="790" y="246" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">SQLite FTS + vector ranking</text>
+<text x="790" y="272" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Bedrock query embedding</text>
+<text x="790" y="298" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Lexical / vector comparison</text>
+<rect x="1130" y="180" width="320" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="1150" y="214" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Private S3 storage</text>
+<text x="1150" y="246" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Markdown: canonical notes</text>
+<text x="1150" y="272" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Index: SQLite + embeddings</text>
+<text x="1150" y="298" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Versioned · encrypted at rest</text>
+<polyline points="340,250 410,250" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="690,250 770,250" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1058,250 1130,250" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="50" y="395" fill="#2563a6" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700">02  LEARN AND MAKE IT RETRIEVABLE</text>
+<rect x="50" y="420" width="290" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="70" y="454" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">AI captures a learning</text>
+<text x="70" y="486" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Raw Markdown note</text>
+<text x="70" y="512" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Ideas/ capture boundary</text>
+<text x="70" y="538" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Idempotent write request</text>
+<rect x="410" y="420" width="280" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="430" y="454" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">S3 note + SQS event</text>
+<text x="430" y="486" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Persist the note first</text>
+<text x="430" y="512" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Queue ingestion work</text>
+<text x="430" y="538" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Retry + dead-letter queue</text>
+<rect x="770" y="420" width="290" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="790" y="454" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Ingestion worker</text>
+<text x="790" y="486" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Chunk updated Markdown</text>
+<text x="790" y="512" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Cohere Multilingual v3</text>
+<text x="790" y="538" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Amazon Bedrock · Sydney</text>
+<rect x="1130" y="420" width="320" height="150" rx="14" fill="#edf3fa" stroke="#9ab3cd" stroke-width="2"/>
+<text x="1150" y="454" fill="#20517c" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Publish index snapshot</text>
+<text x="1150" y="486" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Immutable SQLite in S3</text>
+<text x="1150" y="512" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Active snapshot in DynamoDB</text>
+<text x="1150" y="538" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Freshness checked on read</text>
+<polyline points="340,495 410,495" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="690,495 770,495" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1060,495 1130,495" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1290,420 1290,345" fill="none" stroke="#506c87" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1305" y="390" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400">new context</text>
+<text x="50" y="635" fill="#2563a6" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="700">03  IDENTITY, ACCESS AND OPERATIONS</text>
+<rect x="50" y="660" width="410" height="135" rx="14" fill="#eaf6ef" stroke="#6d9f89" stroke-width="2"/>
+<text x="70" y="694" fill="#216b50" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Google identity</text>
+<text x="70" y="726" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Google user ID + email</text>
+<text x="70" y="752" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Authenticates the owner</text>
+<rect x="520" y="660" width="450" height="135" rx="14" fill="#eaf6ef" stroke="#6d9f89" stroke-width="2"/>
+<text x="540" y="694" fill="#216b50" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">DynamoDB authorisation</text>
+<text x="540" y="726" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Owner + registered client + scope + path</text>
+<text x="540" y="752" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Read and capture permissions checked per tool</text>
+<rect x="1030" y="660" width="420" height="135" rx="14" fill="#eaf6ef" stroke="#6d9f89" stroke-width="2"/>
+<text x="1050" y="694" fill="#216b50" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="700">Secrets Manager + CloudWatch</text>
+<text x="1050" y="726" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">OAuth credentials and encrypted state</text>
+<text x="1050" y="752" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Runtime logs and scoped IAM roles</text>
+<text x="50" y="849" fill="#12304a" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700">Access is granted per client. Google sign-in alone does not grant knowledge access.</text>
+<text x="50" y="885" fill="#536779" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="400">Raw HTTPS endpoint deployed. Custom hostname awaits AWS organisation permission; desktop OAuth onboarding is in progress.</text>
+</svg>
