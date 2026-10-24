@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Compounding personal experience across AI tools: from a local Obsidian MCP to an authenticated cloud knowledge service, with retrieval evaluation and infrastructure as code.">
-    <title>Personal Knowledge Base MCP — Song Jin</title>
+    <meta name="description" content="One authoritative knowledge base for Claude, ChatGPT and OpenClaw: less provider lock-in, shared context and reviewed lessons that carry forward.">
+    <title>One knowledge base across AI providers — Song Jin</title>
     <link rel="stylesheet" href="../../assets/site.css">
   </head>
   <body>
@@ -17,16 +17,28 @@
       <a class="back-link" href="../../#work">← All selected work</a>
       <header class="case-header">
         <p class="eyebrow">Personal project · 2026 · AI platform engineering</p>
-        <h1>Making personal experience compound across AI tools</h1>
-        <p class="lead">I want AI to become more useful to me over time. That means giving it relevant context about my experience, decisions and ways of working—and capturing useful new learning so the next task starts with more than an empty chat.</p>
+        <h1>Your knowledge stays with you when your AI changes</h1>
+        <p class="lead">I am building one authoritative knowledge base for Claude, ChatGPT and OpenClaw. MCP gives compatible assistants a shared interface to my facts, decisions and lessons, so I can change providers with less repeated briefing and keep control of the record.</p>
       </header>
       <div class="case-layout">
         <div class="case-content">
           <section aria-labelledby="purpose-title">
-            <h2 id="purpose-title">A knowledge base that compounds experience</h2>
-            <p>The purpose of my personal KB is to make experience reusable in an agentic AI system. A useful lesson from one task should help with the next. An assistant should be able to retrieve the context that matters, apply it to the current problem, and capture new learning for future use.</p>
-            <p>This is also about making AI more useful to me personally. My preferences, previous decisions and accumulated experience provide context that a general model does not have. Keeping that context in one knowledge base gives different assistants a shared foundation, while letting me change models and tools.</p>
-            <p>The intended loop is straightforward: retrieve relevant experience → work on a task → capture a learning → index it → retrieve it when it becomes useful again. New AI-written notes are raw captures; saving and indexing them does not make them approved knowledge.</p>
+            <h2 id="purpose-title">Maintain knowledge once, reuse it across assistants</h2>
+            <p>Native assistant memory can remain useful alongside the KB. My aim is an independent record that authorised assistants can share: what I know, why I made a decision, what happened, and what I learned. Portable Markdown keeps that knowledge usable as my preferred models and subscriptions change.</p>
+            <p>The business value is less provider lock-in, more consistent context across assistants and less work rebuilding that context. Claude, ChatGPT and OpenClaw are the intended clients; each surface still needs compatible MCP and OAuth support, onboarding and an individual access grant.</p>
+            <p>Canonical means the designated, owner-approved record. It does not make every claim infallible. MCP abstracts access; client instructions and a review workflow establish authority. Assistants should consult relevant KB evidence and flag conflicts with their own recollections for resolution.</p>
+          </section>
+          <section aria-labelledby="learning-title">
+            <h2 id="learning-title">AI captures experience; I review what becomes canonical</h2>
+            <p>The operating model is retrieve → apply → observe → capture → review → reuse. Experience compounds when a reviewed lesson changes later work and its outcome is checked. More notes and embeddings alone do not demonstrate improvement.</p>
+            <ol>
+              <li><strong>Start with relevant experience:</strong> retrieve previous decisions, evidence and lessons before working on a task.</li>
+              <li><strong>Capture the actual outcome:</strong> AI proposes a short learning with context, action, result, sources, possible applications and uncertainty.</li>
+              <li><strong>Review in small batches:</strong> I approve changes to canonical facts and methods. New AI-written captures remain unverified until reviewed.</li>
+              <li><strong>Test through reuse:</strong> a later task applies the lesson and links its outcome back, giving me evidence to keep, revise or retire it.</li>
+            </ol>
+            <p>For example, a hypothetical deployment failure might suggest a preflight check. AI can link the incident evidence and draft the check; I review its scope before adoption. A later deployment tests whether it helped, and another assistant can retrieve the reviewed lesson without repeating the investigation.</p>
+            <p>AI can help with retrieval, capture, duplicate detection, synthesis and review preparation. Human oversight decides what becomes authoritative and whether a proposed generalisation is justified. This is the intended workflow; the deployed service provides retrieval and bounded write primitives, rather than an autonomous system that verifies and promotes lessons.</p>
           </section>
           <section aria-labelledby="evolution-title">
             <h2 id="evolution-title">From a local Obsidian MCP to a cloud service</h2>
@@ -39,9 +51,9 @@
             <ul>
               <li><strong>Carry experience between tasks:</strong> lessons can become retrievable context instead of disappearing into individual conversations.</li>
               <li><strong>Spend less effort rebuilding context:</strong> assistants can find relevant notes without repeated copy-and-paste or per-chat uploads.</li>
-              <li><strong>Keep continuity across AI tools:</strong> knowledge stays with me as I switch clients or models.</li>
+              <li><strong>Reduce provider lock-in:</strong> my facts, decision rationale and reviewed lessons remain in portable Markdown as I change assistants.</li>
               <li><strong>Remove the laptop dependency:</strong> the cloud service can serve authorised clients while the original computer is offline.</li>
-              <li><strong>Expose useful capabilities:</strong> search, fetch and bounded note capture give AI access to the KB through a defined interface.</li>
+              <li><strong>Maintain one shared record:</strong> compatible, authorised clients can retrieve evidence through MCP, with proposed learning kept separate from approved knowledge.</li>
             </ul>
             <p>These are the outcomes the system is designed to support. The measured evidence so far is retrieval quality on a synthetic benchmark; I have not measured a productivity improvement from everyday use.</p>
           </section>
@@ -86,11 +98,11 @@
             <h2 id="status-title">Current status and next evidence</h2>
             <p>The cloud service, private S3 note copy and full hybrid index are deployed at the raw API Gateway endpoint. The desktop OAuth callback rejection has been fixed and deployed; registration now reaches authorisation. Completing client sign-in and verifying its KB permissions remain separate onboarding steps.</p>
             <p>The certificate for <code>mcp.midu.com.au</code> is issued. API Gateway custom-domain creation remains blocked by an AWS organisation permission, so the custom hostname is not live yet.</p>
-            <p>The next evidence should come from everyday use: owner-judged retrieval questions, whether captured learnings help with later tasks, and how reliably the service handles freshness, latency and client access. Those checks will show whether the knowledge loop is actually compounding useful experience.</p>
+            <p>The next evidence should come from everyday use: owner-judged retrieval questions, cross-client consistency, time spent rebuilding context, and whether reviewed lessons help with later tasks. Track reuse, corrections and repeated mistakes alongside freshness, latency and client access. Those checks will show whether the knowledge loop is actually compounding useful experience.</p>
           </section>
           <div class="hero-actions"><a class="button button-primary" href="https://github.com/SongGithub/personal-knowledge-base">Inspect the implementation <span aria-hidden="true">↗</span></a><a class="text-link" href="https://github.com/SongGithub/personal-knowledge-base/pull/4">Review the deployment work <span aria-hidden="true">↗</span></a></div>
         </div>
-        <aside class="case-aside" aria-label="Project summary"><p class="eyebrow">At a glance</p><dl><dt>Stage</dt><dd>Second generation deployed; client onboarding in progress</dd><dt>Purpose</dt><dd>Compound experience and provide personal context to AI</dd><dt>Evolution</dt><dd>Local Obsidian MCP → authenticated cloud MCP</dd><dt>Interface</dt><dd>Model Context Protocol (MCP)</dd><dt>Identity</dt><dd>Google OAuth; backend-enforced authorization</dd><dt>Runtime</dt><dd>AWS API Gateway, Lambda, S3, SQS and DynamoDB</dd><dt>Embeddings</dt><dd>Cohere Embed Multilingual v3 via Bedrock Sydney</dd><dt>Quality gate</dt><dd>33 synthetic queries; hybrid 29/33 top one</dd><dt>Delivery</dt><dd>CloudFormation and pinned CodeBuild release pipeline</dd></dl></aside>
+        <aside class="case-aside" aria-label="Project summary"><p class="eyebrow">At a glance</p><dl><dt>Stage</dt><dd>Second generation deployed; client onboarding in progress</dd><dt>Purpose</dt><dd>One authoritative record across AI providers</dd><dt>Business value</dt><dd>Less provider lock-in and repeated briefing</dd><dt>Knowledge review</dt><dd>AI proposes learning; owner approves canonical changes</dd><dt>Evolution</dt><dd>Local Obsidian MCP → authenticated cloud MCP</dd><dt>Interface</dt><dd>Model Context Protocol (MCP)</dd><dt>Identity</dt><dd>Google OAuth; backend-enforced authorization</dd><dt>Runtime</dt><dd>AWS API Gateway, Lambda, S3, SQS and DynamoDB</dd><dt>Embeddings</dt><dd>Cohere Embed Multilingual v3 via Bedrock Sydney</dd><dt>Quality gate</dt><dd>33 synthetic queries; hybrid 29/33 top one</dd><dt>Delivery</dt><dd>CloudFormation and pinned CodeBuild release pipeline</dd></dl></aside>
       </div>
     </main>
     <footer class="site-footer"><div class="shell footer-inner"><span>© 2026 Song Jin</span><div><a href="https://github.com/SongGithub">GitHub</a><a href="https://github.com/SongGithub/songgithub.github.io-src/tree/master/content">Writing archive</a></div></div></footer>
