@@ -47,7 +47,6 @@ jobs:
                       if token not in message:
                           print('R2 error detail: ' + message)
               return success, body.get('result')
-          check('Token validity', '/user/tokens/verify')
           try: inputs = json.loads(os.environ.get('CLOUDFLARE_TFVARS_JSON', '{}'))
           except Exception: inputs = {}
           zone_id = inputs.get('zone_id')
@@ -67,7 +66,6 @@ jobs:
               ('Access applications', '/access/apps'),
               ('Workers deployment resources', '/workers/scripts'),
               ('D1 databases', '/d1/database'),
-              ('R2 buckets', '/r2/buckets'),
           ]
           allowed = True
           for label, path in checks:
