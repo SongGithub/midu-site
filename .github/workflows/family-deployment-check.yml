@@ -60,6 +60,14 @@ jobs:
           if not account_id:
               print('DEPLOYMENT BLOCKED: the stored token cannot discover the required Midu account/zone. No resources were changed.')
               sys.exit(1)
+          verified, identity = check('Account-token verification', '/accounts/' + account_id + '/tokens/verify')
+          if verified and isinstance(identity, dict) and identity.get('id'):
+              status, details = call('/accounts/' + account_id + '/tokens/' + identity['id'])
+              if status == 200 and details.get('success'):
+                  groups = sorted({group.get('name', '') for policy in details.get('result', {}).get('policies', []) for group in policy.get('permission_groups', [])})
+                  print('Effective permission groups: ' + ', '.join(groups))
+              else:
+                  print('Token permission introspection is unavailable; no credentials were printed.')
           checks = [
               ('Google Access organization', '/access/organizations'),
               ('Google identity providers', '/access/identity_providers'),
