@@ -1,0 +1,74 @@
+name: Check family deployment credentials
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check stored Cloudflare token without exposing credentials
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_TFVARS_JSON: ${{ secrets.CLOUDFLARE_TFVARS_JSON }}
+        shell: python
+        run: |
+          import json, os, sys, urllib.request, urllib.error
+          token = os.environ.get('CLOUDFLARE_API_TOKEN', '')
+          if not token:
+              print('BLOCKED: no Cloudflare token is configured.')
+              sys.exit(1)
+          def call(path):
+              request = urllib.request.Request('https://api.cloudflare.com/client/v4' + path,
+                  headers={'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'})
+              try:
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      return response.status, json.load(response)
+              except urllib.error.HTTPError as error:
+                  try: body = json.load(error)
+                  except Exception: body = {}
+                  return error.code, body
+              except Exception:
+                  return 0, {}
+          def check(label, path):
+              status, body = call(path)
+              success = 200 <= status < 300 and body.get('success') is True
+              codes = [str(item.get('code')) for item in body.get('errors', [])]
+              print(label + ': ' + ('PASS' if success else 'DENIED') + ' HTTP ' + str(status)
+                    + ('; Cloudflare error codes ' + ','.join(codes) if codes else ''))
+              return success, body.get('result')
+          check('Token validity', '/user/tokens/verify')
+          try: inputs = json.loads(os.environ.get('CLOUDFLARE_TFVARS_JSON', '{}'))
+          except Exception: inputs = {}
+          zone_id = inputs.get('zone_id')
+          if zone_id:
+              check('Existing website DNS read', '/zones/' + zone_id + '/dns_records?name=www.midu.com.au')
+          # This is the first API request made by the standalone deployment script.
+          ok, zones = check('Family deployment: zone discovery', '/zones?name=midu.com.au&per_page=100&page=1')
+          account_id = None
+          if ok and isinstance(zones, list) and len(zones) == 1:
+              account_id = zones[0].get('account', {}).get('id')
+          if not account_id:
+              print('DEPLOYMENT BLOCKED: the stored token cannot discover the required Midu account/zone. No resources were changed.')
+              sys.exit(1)
+          checks = [
+              ('Google Access organization', '/access/organizations'),
+              ('Google identity providers', '/access/identity_providers'),
+              ('Access applications', '/access/apps'),
+              ('Workers deployment resources', '/workers/scripts'),
+              ('D1 databases', '/d1/database'),
+              ('R2 buckets', '/r2/buckets'),
+          ]
+          allowed = True
+          for label, path in checks:
+              success, _ = check(label, '/accounts/' + account_id + path)
+              allowed = allowed and success
+          if not allowed:
+              print('DEPLOYMENT BLOCKED: required Cloudflare services are inaccessible with this token. No resources were changed.')
+              sys.exit(1)
+          print('Read checks passed. Write permissions have not been established; no resources were changed.')
