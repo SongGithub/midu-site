@@ -41,6 +41,11 @@ jobs:
               codes = [str(item.get('code')) for item in body.get('errors', [])]
               print(label + ': ' + ('PASS' if success else 'DENIED') + ' HTTP ' + str(status)
                     + ('; Cloudflare error codes ' + ','.join(codes) if codes else ''))
+              if label == 'R2 buckets' and not success:
+                  for item in body.get('errors', []):
+                      message = str(item.get('message', ''))[:300]
+                      if token not in message:
+                          print('R2 error detail: ' + message)
               return success, body.get('result')
           check('Token validity', '/user/tokens/verify')
           try: inputs = json.loads(os.environ.get('CLOUDFLARE_TFVARS_JSON', '{}'))
