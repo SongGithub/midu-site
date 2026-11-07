@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Check stored Cloudflare token without exposing credentials
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_DAWN_HILL }}
           CLOUDFLARE_TFVARS_JSON: ${{ secrets.CLOUDFLARE_TFVARS_JSON }}
         shell: python
         run: |
