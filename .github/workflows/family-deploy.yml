@@ -1,0 +1,76 @@
+name: Deploy private Midu Family
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_sha256:
+        description: SHA-256 of the private source archive staged in repository secrets
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: midu-family-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Open private source in the ephemeral runner
+        env:
+          SOURCE_PART_1: ${{ secrets.MIDU_FAMILY_SOURCE_PART_1 }}
+          SOURCE_PART_2: ${{ secrets.MIDU_FAMILY_SOURCE_PART_2 }}
+          EXPECTED_SHA: ${{ inputs.source_sha256 }}
+        shell: python
+        run: |
+          import base64, hashlib, io, os, re, tarfile
+          expected = os.environ['EXPECTED_SHA']
+          if not re.fullmatch(r'[a-f0-9]{64}', expected):
+              raise SystemExit('Invalid archive checksum.')
+          archive = base64.b64decode(os.environ['SOURCE_PART_1'] + os.environ['SOURCE_PART_2'], validate=True)
+          if hashlib.sha256(archive).hexdigest() != expected:
+              raise SystemExit('Private source checksum mismatch; no deployment attempted.')
+          os.mkdir('family-source', 0o700)
+          with tarfile.open(fileobj=io.BytesIO(archive), mode='r:gz') as source:
+              source.extractall('family-source', filter='data')
+          print('Private source checksum verified. Source is not uploaded as an artifact.')
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Install pinned dependencies and test
+        working-directory: family-source
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test
+      - name: Deploy to family.midu.com.au
+        working-directory: family-source
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_DAWN_HILL }}
+          CI: 'true'
+          WRANGLER_SEND_METRICS: 'false'
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          log_path="$RUNNER_TEMP/midu-family-deploy.log"
+          if npm run deploy > "$log_path" 2>&1; then
+            echo 'Deployment completed; signed-out Access redirect verified.'
+          else
+            python3 - "$log_path" <<'PY'
+          import os, re, sys
+          text = open(sys.argv[1]).read()
+          text = text.replace(os.environ.get('CLOUDFLARE_API_TOKEN', '\0'), '[redacted]')
+          text = re.sub(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}', '[private email]', text)
+          text = re.sub(r'\b[a-f0-9]{32}\b', '[resource id]', text)
+          for line in text.splitlines()[-45:]:
+              if not re.search(r'\benv\.', line):
+                  print(line)
+          print('Deployment did not complete. Raw logs stay on the ephemeral runner and are not uploaded.')
+          PY
+            exit 1
+          fi
