@@ -35,3 +35,7 @@ GitHub Pages publishes an artifact containing only website files through `script
 The contact section accepts recruitment and business enquiries. Name, email and message are required; phone and organisation are optional. A native HTTPS POST sends the details through FormSubmit to `songjin@hotmail.com`. Its default CAPTCHA and confirmation page remain enabled. No form data is saved in the repository, browser storage or analytics. The form works without JavaScript.
 
 **Activation / verification:** submit a clearly labelled owner test from `https://www.midu.com.au/#connect`, then follow FormSubmit’s activation email in the recipient inbox (check junk). Submit again after activation and confirm the message arrives and Reply uses the visitor email. Until that received test is confirmed, delivery is unverified. Existing direct-email and LinkedIn links remain available. FormSubmit processes submissions under its own privacy policy; delete enquiries from the recipient mailbox when no longer needed. No public submissions archive is maintained.
+
+## Family site
+
+The Family navigation button opens the separately hosted private family site. This public repository contains only the link; family source, reports, authentication and deployment credentials are managed in the private family repository.
