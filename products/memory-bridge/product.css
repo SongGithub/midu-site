@@ -1,0 +1,137 @@
+.kb-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, .85fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+
+.kb-hero h1 {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+}
+
+.kb-hero h1 em {
+  display: block;
+}
+
+.kb-preview {
+  margin: 0;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-top: 3px solid var(--accent);
+  background: var(--soft);
+}
+
+.kb-preview figcaption {
+  margin-bottom: 1.75rem;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.kb-preview blockquote {
+  margin: 0 0 1rem;
+  font: 1.75rem/1.25 Georgia, serif;
+  letter-spacing: -.03em;
+}
+
+.kb-source {
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: .875rem;
+}
+
+.kb-source a {
+  color: var(--accent-dark);
+}
+
+.kb-demo {
+  background: var(--soft);
+}
+
+.kb-product h2 {
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+}
+
+.kb-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: kb-demo;
+}
+
+.kb-steps > li {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border-top: 2px solid var(--accent);
+  background: var(--paper);
+  counter-increment: kb-demo;
+}
+
+.kb-steps h3 {
+  margin-bottom: 1.25rem;
+  font-size: 1.45rem;
+}
+
+.kb-steps h3::before {
+  content: counter(kb-demo, decimal-leading-zero) " / " / "";
+  color: var(--accent);
+  font: 700 .875rem/1 Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+}
+
+.kb-demo-label {
+  margin-bottom: .25rem;
+  color: var(--accent-dark);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.kb-steps > li > :last-child,
+.kb-steps details p {
+  margin-bottom: 0;
+}
+
+.kb-steps summary {
+  min-height: 44px;
+  padding-block: .625rem;
+  color: var(--accent-dark);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.kb-steps summary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.kb-steps details p {
+  margin-top: .5rem;
+  padding: .75rem 1rem;
+  border-left: 2px solid var(--accent);
+  background: var(--soft);
+}
+
+.kb-pilot .contact-form {
+  margin: 0;
+}
+
+.kb-pilot .contact-field :is(input, textarea) {
+  border-color: var(--muted);
+}
+
+.kb-pilot .contact-field textarea {
+  min-height: 6rem;
+}
+
+.kb-pilot .contact-field .form-hint {
+  margin-top: .5rem;
+}
+
+@media (max-width: 760px) {
+  .kb-hero,
+  .kb-steps {
+    grid-template-columns: 1fr;
+  }
+}
